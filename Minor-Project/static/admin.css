@@ -1,0 +1,124 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+body {
+  background-color: #007248;
+  color: white;
+}
+.admin-heading {
+  display: flex;
+  justify-content: center;
+  background-color: #074831;
+}
+.admin-body {
+  display: flex;
+  align-items: center;
+}
+.admin-donut-body {
+  height: 150px;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  background-color: #007248;
+
+}
+.total-users {
+  display: flex;
+  position: relative;
+  height: 100px;
+  width: 200px;
+  overflow: hidden;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+}
+.total-users::before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  content: "";
+  height: 200px;
+  width: 200px;
+  border: 30px solid red;
+  box-sizing: border-box;
+  border-radius: 50%;
+  transform: rotate(-45deg);
+}
+.text {
+  padding-top: 62px;
+  text-transform: uppercase;
+  font-size: 1rem;
+  font-weight: bold;
+  line-height: 25px;
+}
+.total::before {
+  border-color: blue blue black black;
+}
+.paid::before {
+  border-color: white white black black;
+}
+.unpaid::before {
+  border-color: yellow yellow black black;
+}
+.search {
+  background-color: #007248;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+.customer_notice{
+  display: flex;
+  justify-content: flex-end;
+}
+input,
+button ,a{
+  padding: 10px;
+  font-size: 1.2rem;
+}
+a {
+  text-decoration: none;
+}
+button,a {
+  color: white;
+  background-color: #074831;
+  border: 1px solid white;
+  border-radius: 0.4rem;
+  cursor: pointer;
+}
+.admin-logout {
+  margin: 0 2rem;
+}
+
+table {
+  width: 100vw;
+  margin-top: 20px;
+  background-color: #007248;
+  color: white;
+  font-size: 1.2rem;
+}
+table,
+th,
+td {
+  border: 1px solid white;
+  border-collapse: collapse;
+}
+th,
+td {
+  text-align: center;
+  padding: 8px;
+}
+th:nth-child(1) {
+  width: 4vw;
+}
+th:nth-child(2) {
+  width: 24vw
+}
+th:nth-child(3) {
+  width: 24vw;
+}
+th:nth-child(4) {
+  width: 24vw;
+}

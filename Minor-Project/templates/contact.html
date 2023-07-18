@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'contact.css' %}" />
+    <script src="https://kit.fontawesome.com/647c144f06.js" crossorigin="anonymous"></script>
+    <title>Contact page</title>
+</head>
+<body>
+    <div class="contact-heading">
+        <img src="{% static 'nea.png' %}" alt="" />
+      </div>
+      <div class="contact-page-container">
+          <div class="inner-container">
+              <h1>Contact Us</h1>
+            <div class="item item1">
+                <span><i class="fa-solid fa-location-dot"></i></span>
+                <a href = "/map" target ="_blank">Durbarmarg Kathmandu</a>
+            </div>
+            <div class="item item3">
+                <span><i class="fa-solid fa-envelope"></i></span>
+                <a>info@nea.org.np</a>
+            </div>
+            <div class="item item4">
+                <span><i class="fa-solid fa-globe"></i></span>
+                <a href = "https://www.nea.org.np/" target ="_blank">	www.nea.org.np</a>
+            </div>
+            <div class="item item2">
+                <span><i class="fa-solid fa-fax"></i></span>
+                <a href="">+977-1-4153009</a>
+            </div>
+          </div>
+      </div>
+</body>
+</html>

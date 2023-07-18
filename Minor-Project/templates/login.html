@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'login.css' %}">
+    <title>Login page</title>
+</head>
+<body>
+    {% for message in messages %}
+    <p class= "message">{{message}}</p>
+    {% endfor %}
+    <div class="login-page-container">
+    <form method="post" class="login" action = "/login/">{% csrf_token %}
+    
+        <span class="title">
+            <img src="{% static 'nea.png' %}" alt="">
+        </span>
+        <div class="inner-login">
+            <label for="userid" >User Id:</label>
+        <input type="text" name="login_id" id="userid" placeholder="Enter you Id" style="padding-left: .5rem;"> 
+
+        <label for="userpassword">Password:</label>
+        <input type="password" name="login_password" id="userpassword" placeholder="Enter you Password" style="padding-left: .5rem;">
+         <div class="login-btn">
+             <button class="lbtn" type="submit">Log In</button>
+             <a id="sbtn">Sign Up</a>
+         </div>
+        </div>
+    </form>
+</div>
+<!-- sign in madal -->
+<div class="signup-modal-container">
+    <form class="signup" action="/signup/" method="POST">{% csrf_token %}
+        <span class="title">
+            <img src="{% static 'nea.png' %}" alt="">
+        </span>
+        <div class="inner-signup">
+        <label for="sign_up_username">User ID</label>
+        <input type="text" id="sign_up_user" name="userid" placeholder="Enter your device ID" style="padding-left: .5rem;">
+        <label for="sign_up_passowrd">Password</label>
+        <input type="password" id="sigign_up_password" name="password" placeholder="Enter Your Password" style="padding-left: .5rem;">
+        <label for="confirm_password" >Confirm Password:</label>
+        <input type="password" id="confirm_password" name="confirm_password" placeholder="Re-enter Your Password" style="padding-left: .5rem;">
+        <div class="signup-btn">
+            <button type = "submit">Sign Up</button>
+
+            <a id="cancel">Cancel</a>
+        </div>
+    </div>
+    </form>
+</div>
+<script>
+
+const signUp = document.getElementById('sbtn');
+const signUpModal = document.querySelector('.signup-modal-container');
+const cancelBtn = document.getElementById('cancel');
+
+signUp.addEventListener('click', function() {
+    signUpModal.classList.add('visible');
+    console.log('clicked');
+});
+
+cancelBtn.addEventListener('click',function(){
+    signUpModal.classList.remove('visible');
+
+})
+
+</script>
+</body>
+</html>

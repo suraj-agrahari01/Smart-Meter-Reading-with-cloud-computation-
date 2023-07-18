@@ -1,0 +1,72 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'admin.css' %}" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="admin-heading">
+      <img src="{% static 'nea.png' %}" alt="" />
+    </div>
+    <div class="admin-donut-body">
+      <div class="user-donut">
+        <div class="total-users total">
+          <div class="text">
+            {{DAY_TOTAL}}
+            <br />
+            Day Unit
+          </div>
+        </div>
+      </div>
+      <div class="user-donut">
+        <div class="total-users paid">
+          <div class="text">
+            {{MONTH_TOTAL}}
+            <br />
+            Month Unit
+          </div>
+        </div>
+      </div>
+      <div class="user-donut">
+        <div class="total-users unpaid">
+          <div class="text">
+            {{YEAR_TOTAL}}
+            <br />
+            Year Unit
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="customer_notice">
+      <form class="search" method="post" class="login" action = "/notification/">
+        {% csrf_token %}
+        <input type="text" name="customer_notification" placeholder="Write Notification Here" />
+        <button type="submit">Send</button>
+      </form>
+      <a href="/logout" class = "admin-logout" > Log out</a>
+    </div>
+    <table>
+      <tr>
+        <th style="width: 4vw">SN.</th>
+        <th>User ID</th>
+        <th>Daily Units</th>
+        <th>Monthly Units</th>
+        <th>Yearly Units</th>
+      </tr>
+      {% for user  in client_users %}
+      <tr>
+        <td>1</td>
+        <td class= "id">{{user}}</td>
+        <td>{{DAY_TOTAL}}</td>
+        <td>{{MONTH_TOTAL}}</td>
+        <td>{{YEAR_TOTAL}}</td>
+      </tr>
+      {% endfor %}
+    </table>
+
+  </body>
+</html>

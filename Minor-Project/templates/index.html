@@ -1,0 +1,477 @@
+{% extends 'base.html' %} {% load static %} 
+{% block website %}
+<nav>
+  <p class="logo">
+    <img src="{% static 'nea.png' %}" alt="" style="height: 10vh" />
+  </p>
+  <ul class="top-nav">
+    <li id="notification"><i class="fas fa-bell"></i>
+    </li>
+    <li><a href="/contact" >Contact Us</a></li>
+  </ul>
+</nav>
+{% for message in messages %}
+<p class = "message">{{message}}</p>
+{% endfor %}
+<div class="notification-modal">
+  {% for notice in user_notice %}
+  <p>{{notice.user_notice}}</p>
+  {% endfor %}
+</div>
+
+<div class="dashboard" id="dashboard">
+  <div class="image-container">
+    <img src="{% static 'user.png' %}" alt="" />
+  </div>
+  <div class="username-container">
+    <p class="username">tulashi pd joshi</p>
+  </div>
+  <div class="settigs-container">
+    <a id="settings">Settings</a>
+    {% comment %} <a href="">Records</a> {% endcomment %}
+  </div>
+  <div class="logout">
+    <a class="user-logout" href="/logout">Log Out</a>
+  </div>
+</div>
+
+<!-- settings modal -->
+<div class="setting-modal">
+  <a id="changePassword">Change Password</a>
+  <span class="modal-close" id="settingClose">X</span>
+</div>
+
+<div class="main-container">
+  <!-- edited today -->
+  <div class="time">
+    <li class="day ">Day</li>
+    <li class="month ">Month</li>
+    <li class="year btn-active">Year</li>
+    <li class="total">Total</li>
+  </div>
+  <!-- end today -->
+  <!-- day -->
+  <div class="unit-container-day">
+    <div class="unit">
+      <span class ="large">{{DAY_TOTAL}}</span>
+      <span class = "small">units</span>
+    </div>
+    <div class="cost">
+      <span class="small">Rs.</span>
+      <span class="large">{{DAY_TOTAL_COST}}</span>
+    </div>
+  </div>
+  <!-- month -->
+  <div class="unit-container-month">
+    <div class="unit">
+      <span class="large">{{MONTH_TOTAL}}</span>
+      <span class="small">units</span>
+    </div>
+    <div class="cost">
+      <span class="small">Rs.</span>
+      <span class="large">{{MONTH_TOTAL_COST}}</span>
+    </div>
+  </div>
+  <!-- year -->
+  <div class="unit-container-year">
+    <div class="unit">
+      <span class ="large">{{YEAR_TOTAL}}</span>
+      <span class = "small">units</span>
+    </div>
+    <div class="cost">
+      <span class="small">Rs.</span>
+      <span class="large">{{YEAR_TOTAL_COST}}</span>
+    </div>
+  </div>
+  <!-- total -->
+  <div class="unit-container-total">
+    <div class="unit">
+      <span class ="large">{{grand_total}}</span>
+      <span class = "small">units</span>
+    </div>
+    <div class="cost">
+      <span class="small">Rs.</span>
+      <span class="large">{{grand_total_cost}}</span>
+    </div>
+  </div>
+
+  <div class="graph-container-h">
+    <canvas id="myChart_h" style="height: inherit" style="color: white"></canvas>
+  </div>
+  <div class="graph-container-d">
+    <canvas id="myChart_d" style="height: inherit" style="color: white"></canvas>
+  </div>
+  <div class="graph-container-m">
+    <canvas id="myChart_m" style="height: inherit" style="color: white"></canvas>
+  </div>
+  <div class="graph-container-y">
+    <canvas id="myChart_y" style="height: inherit" style="color: white"></canvas>
+  </div>
+
+  <div class="modal-bg">
+    <div class="modal">
+      <form class="label-wrap" method ="POST" action= "/changepw/">
+        {% csrf_token %}
+        <label for="old_password">Enter Old Password</label>
+        <input type="text" name="old_password" placeholder="" />
+        <label for="new_password">Enter New Password</label>
+        <input type="text" name="new_password1" placeholder="" />
+        <label for="old_password">Confirm New Password</label>
+        <input type="text" name="new_password2" placeholder="" />
+        <button class="modal-btn" type="submit">Save</button>
+      </form>
+      <span class="modal-close" id="password_modal_close">X</span>
+    </div>
+  </div>
+</div>
+
+<script>
+  const ctx_h = document.getElementById("myChart_h").getContext("2d");
+  ctx_h.height = 50;
+  const myChart_h = new Chart(ctx_h, {
+    type: "line",
+    data: {
+      labels: [ "1", "2", "3", "4", "5","6", "7", "8", "9", "10", "11", "12", "13", "14", "15","16", "17", "18", "19","20", "21", "22", "23", "24", ],
+      datasets: [
+        {
+          label: "Units Consumed",
+          data: [{{unit_1h}}, {{unit_2h}},{{unit_3h}}, {{unit_4h}},{{unit_5h}}, {{unit_6h}},{{unit_7h}}, {{unit_8h}},{{unit_9h}}, {{unit_10h}},{{unit_11h}}, {{unit_12h}}, {{unit_13h}},{{unit_14h}}, {{unit_15h}},{{unit_16h}}, {{unit_17h}},{{unit_18h}}, {{unit_19h}},{{unit_20h}}, {{unit_21h}},{{unit_22h}}, {{unit_23h}},{{unit_24h}},],
+          backgroundColor: ["white"],
+          borderColor: ["white"],
+          borderWidth: 2,
+        },
+      ],
+    },
+    options: {
+      maintainAspectRatio: false,
+      responsive: true,
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: {
+            color: "white",
+            font: {
+              size: 18,
+            },
+          },
+        },
+        x: {
+          ticks: {
+            color: "white",
+            font: {
+              size: 18,
+            },
+          },
+        },
+      },
+      plugins: {
+        legend: {
+          labels: {
+            color: "white",
+            font: {
+              size: 18,
+            },
+          },
+        },
+      },
+    },
+  });
+  const ctx_d = document.getElementById("myChart_d").getContext("2d");
+  ctx_d.height = 50;
+  const myChart_d = new Chart(ctx_d, {
+    type: "line",
+    data: {
+      labels: [ "1", "2", "3", "4", "5","6", "7", "8", "9", "10", "11", "12", "13", "14", "15","16", "17", "18", "19","20", "21", "22", "23", "24", "25","26", "27", "28", "29", "30",],
+      datasets: [
+        {
+          label: "Units Consumed",
+          data: [{{unit_1}}, {{unit_2}},{{unit_3}}, {{unit_4}},{{unit_5}}, {{unit_6}},{{unit_7}}, {{unit_8}},{{unit_9}}, {{unit_10}},{{unit_11}}, {{unit_12}}, {{unit_13}},{{unit_14}}, {{unit_15}},{{unit_16}}, {{unit_17}},{{unit_18}}, {{unit_19}},{{unit_20}}, {{unit_21}},{{unit_22}}, {{unit_23}},{{unit_24}}, {{unit_25}},{{unit_26}}, {{unit_27}},{{unit_28}}, {{unit_29}},{{unit_30}},],
+          backgroundColor: ["white"],
+          borderColor: ["white"],
+          borderWidth: 2,
+        },
+      ],
+    },
+    options: {
+      maintainAspectRatio: false,
+      responsive: true,
+      scales: {
+        y: {
+          {% comment %} beginAtZero: true, {% endcomment %}
+          ticks: {
+            color: "white",
+            font: {
+              size: 18,
+            },
+          },
+        },
+        x: {
+          ticks: {
+            color: "white",
+            font: {
+              size: 18,
+            },
+          },
+        },
+      },
+      plugins: {
+        legend: {
+          labels: {
+            color: "white",
+            font: {
+              size: 18,
+            },
+          },
+        },
+      },
+    },
+  });
+
+  const ctx_m = document.getElementById("myChart_m").getContext("2d");
+  ctx_m.height = 50;
+  const myChart_m = new Chart(ctx_m, {
+    type: "line",
+    data: {
+      labels: ["JAN", "FEB", "MAR", "APR", "MAY", "JUNE","JULY","AUG","SEPT","OCT","NOV","DEC"],
+      datasets: [
+        {
+          label: "Units Consumed",
+          data: [{{JAN}}, {{FEB}},{{MAR}},{{APR}},{{MAY}},{{JUNE}},{{JULY}},{{AUG}},{{SEPT}},{{OCT}}, {{NOV}}, {{DEC}}],
+          backgroundColor: ["white"],
+          borderColor: ["white"],
+          borderWidth: 2,
+        },
+      ],
+    },
+    options: {
+      maintainAspectRatio: false,
+      responsive: true,
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: {
+            color: "white",
+            font: {
+              size: 18,
+            },
+          },
+        },
+        x: {
+          ticks: {
+            color: "white",
+            font: {
+              size: 18,
+            },
+          },
+        },
+      },
+      plugins: {
+        legend: {
+          labels: {
+            color: "white",
+            font: {
+              size: 18,
+            },
+          },
+        },
+      },
+    },
+  });
+  const ctx_y = document.getElementById("myChart_y").getContext("2d");
+  ctx_y.height = 50;
+  const myChart_y = new Chart(ctx_y, {
+    type: "line",
+    data: {
+      labels: ["{{year_label0}}","{{year_label1}}","{{year_label2}}","{{year_label3}}","{{year_label4}}","{{year_label5}}","{{year_label6}}","{{year_label7}}","{{year_label8}}","{{year_label9}}",],
+      datasets: [
+        {
+          label: "Units Consumed",
+          data: [{{year0}},{{year1}},{{year2}},{{year3}},{{year4}},{{year5}},{{year6}},{{year7}},{{year8}},{{year9}},],
+          backgroundColor: ["white"],
+          borderColor: ["white"],
+          borderWidth: 2,
+        },
+      ],
+    },
+    options: {
+      maintainAspectRatio: false,
+      responsive: true,
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: {
+            color: "white",
+            font: {
+              size: 18,
+            },
+          },
+        },
+        x: {
+          ticks: {
+            color: "white",
+            font: {
+              size: 18,
+            },
+          },
+        },
+      },
+      plugins: {
+        legend: {
+          labels: {
+            color: "white",
+            font: {
+              size: 18,
+            },
+          },
+        },
+      },
+    },
+  });
+
+  var notification = document.getElementById('notification');
+  var notification_modal = document.querySelector('.notification-modal');
+
+  var settings = document.getElementById("settings");
+  var setting_close = document.getElementById("settingClose");
+  var change_password = document.querySelector("#changePassword");
+  var modal_close = document.getElementById("password_modal_close");
+
+  var day_cost = document.querySelector(".unit-container-day");
+  var month_cost = document.querySelector(".unit-container-month");
+  var year_cost = document.querySelector(".unit-container-year ");
+  var total_cost = document.querySelector(".unit-container-total ");
+
+  var day_click = document.querySelector(".day");
+  var month_click = document.querySelector(".month");
+  var year_click = document.querySelector(".year");
+  var total_click = document.querySelector(".total");
+
+  var graph_h = document.querySelector(".graph-container-h")
+  var graph_d = document.querySelector(".graph-container-d")
+  var graph_m = document.querySelector(".graph-container-m")
+  var graph_y = document.querySelector(".graph-container-y")
+  console.log(graph_d);
+
+  notification.addEventListener('click' , function () {
+    notification.classList.toggle('icon-active')
+    notification_modal.classList.toggle('notification-toggle')
+  }); 
+
+  day_click.addEventListener("click", function () {
+    day_click.classList.add("btn-active");
+    day_cost.classList.add("shown");
+    day_cost.classList.remove("hidden");
+    year_click.classList.remove("btn-active");
+    year_cost.classList.add("hidden");
+    year_cost.classList.remove("shown");
+    total_click.classList.remove("btn-active");
+    total_cost.classList.add("hidden");
+    total_cost.classList.remove("shown");
+    month_click.classList.remove("btn-active");
+    month_cost.classList.add("hidden");
+    month_cost.classList.remove("shown");
+
+    graph_y.classList.add("hidden");
+    graph_y.classList.remove("shown");
+    graph_m.classList.add("hidden");
+    graph_m.classList.remove("shown");
+    graph_d.classList.add("hidden");
+    graph_d.classList.remove("shown");
+    graph_h.classList.add("shown");
+    graph_h.classList.remove("hidden");
+    
+  });
+  month_click.addEventListener("click", function () {
+    month_click.classList.add("btn-active");
+    year_click.classList.remove("btn-active");
+    total_click.classList.remove("btn-active");
+    month_cost.classList.add("shown");
+    month_cost.classList.remove("hidden");
+    year_cost.classList.add("hidden");
+    year_cost.classList.remove("shown");
+    total_cost.classList.add("hidden");
+    total_cost.classList.remove("shown");
+    day_click.classList.remove("btn-active");
+    day_cost.classList.remove("shown");
+    day_cost.classList.add("hidden");
+
+    graph_y.classList.add("hidden");
+    graph_y.classList.remove("shown");
+    graph_m.classList.add("hidden");
+    graph_m.classList.remove("shown");
+    graph_d.classList.add("shown");
+    graph_d.classList.remove("hidden");
+    graph_h.classList.remove("shown");
+    graph_h.classList.add("hidden");
+  });
+
+  year_click.addEventListener("click", function () {
+    total_click.classList.remove("btn-active");
+    total_cost.classList.add("hidden");
+    total_cost.classList.remove("shown");
+    month_click.classList.remove("btn-active");
+    month_cost.classList.add("hidden");
+    month_cost.classList.remove("shown");
+    year_click.classList.add("btn-active");
+    year_cost.classList.add("shown");
+    year_cost.classList.remove("hidden");
+    day_click.classList.remove("btn-active");
+    day_cost.classList.remove("shown");
+    day_cost.classList.add("hidden");
+
+    graph_y.classList.remove("shown");
+    graph_y.classList.add("hidden");
+    graph_m.classList.add("shown");
+    graph_m.classList.remove("hidden");
+    graph_d.classList.add("hidden");
+    graph_d.classList.remove("shown");
+    graph_h.classList.remove("shown");
+    graph_h.classList.add("hidden");
+
+  });
+
+  total_click.addEventListener("click", function () {
+    month_click.classList.remove("btn-active");
+    year_click.classList.remove("btn-active");
+    total_click.classList.add("btn-active");
+    year_cost.classList.add("hidden");
+    year_cost.classList.remove("shown");
+    month_cost.classList.add("hidden");
+    month_cost.classList.remove("shown");
+    total_cost.classList.add("shown");
+    total_cost.classList.remove("hidden");
+    day_click.classList.remove("btn-active");
+    day_cost.classList.remove("shown");
+    day_cost.classList.add("hidden");
+
+    graph_y.classList.add("shown");
+    graph_y.classList.remove("hidden");
+    graph_m.classList.add("hidden");
+    graph_m.classList.remove("shown");
+    graph_d.classList.add("hidden");
+    graph_d.classList.remove("shown");
+    graph_h.classList.remove("shown");
+    graph_h.classList.add("hidden");
+  });
+
+  settings.addEventListener("click", function () {
+    document
+      .querySelector(".setting-modal")
+      .classList.add("setting-modal-active");
+  });
+  setting_close.addEventListener("click", function () {
+    document
+      .querySelector(".setting-modal")
+      .classList.remove("setting-modal-active");
+  });
+
+  change_password.addEventListener("click", function () {
+    document.querySelector(".modal-bg").classList.add("modal-active");
+  });
+
+  modal_close.addEventListener("click", function () {
+    document.querySelector(".modal-bg").classList.remove("modal-active");
+  });
+ 
+</script>
+{% endblock website %}
